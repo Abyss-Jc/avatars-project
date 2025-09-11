@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('avatars', function (Blueprint $table) {
+        Schema::create('avatar_category_pivot', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->foreignId('avatar_id')->constrained('avatars')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->timestamps();
 
-
+            $table->unique(['avatar_id', 'category_id']);
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('avatars');
+        Schema::dropIfExists('avatar_category_pivot');
     }
 };
