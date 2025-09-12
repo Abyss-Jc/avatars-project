@@ -13,14 +13,13 @@ return new class extends Migration
     {
         Schema::create('knowledge_files', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('avatar_id')->constrained()->onDelete('cascade');
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->string('file_name');
-            $table->string('original_name');
-            $table->string('path');
-            $table->integer('size')->default(0); // size in bytes
+            $table->string('file_path');
+            $table->integer('file_size')->default(0); // size in kilobytes
             $table->timestamps();
 
-            $table->unique(['avatar_id', 'file_name']);
+            $table->unique(['category_id', 'file_name']);
         });
     }
 
