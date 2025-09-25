@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->string('file_name');
-            $table->string('file_path');
+            $table->string('file_path'); // relative path within the disk
             $table->integer('file_size')->default(0); // size in kilobytes
             $table->timestamps();
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('json_files');
+        Schema::dropIfExists('knowledge_files');
     }
 };
