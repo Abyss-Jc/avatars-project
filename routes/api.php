@@ -1,12 +1,13 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use Illuminate\Facades\Storage\Storage;
+use App\Http\Controllers\KnowledgeController;
 
 Route::get('/user', function () {
     return response()->json(['user' => 'Chavez']);
 });
 
-Route::get('/files', function () {
-    $files = Storage::disk('local')->files('knowledge_files');
-    return response()->json(['files' => $files]);
+Route::prefix('/knowledge')->group(function () {
+    Route::get('/', [KnowledgeController::class, 'index']);
+    Route::get('/{slug}', [KnowledgeController::class, 'show']);
 });
