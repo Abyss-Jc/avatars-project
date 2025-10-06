@@ -7,7 +7,10 @@ Route::get('/user', function () {
     return response()->json(['user' => 'Chavez']);
 });
 
-Route::prefix('/knowledge')->group(function () {
-    Route::get('/', [KnowledgeController::class, 'index']);
+Route::get('/all/knowledge', [KnowledgeController::class, 'globalIndex']);
+
+// Endpoints específicos por avatar
+Route::prefix('{avatar_name}/knowledge')->group(function () {
+    Route::get('/all', [KnowledgeController::class, 'index']);
     Route::get('/{slug}', [KnowledgeController::class, 'show']);
 });
