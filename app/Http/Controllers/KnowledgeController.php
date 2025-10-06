@@ -3,92 +3,36 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Log;
+use App\Models\Avatar;
 use App\Models\Category;
 use Exception;
 
 class KnowledgeController extends Controller
 {
-    public function show($slug)
+    /**
+     * GET /{avatar_name}/knowledge/all
+     * Lista todos los knowledge de todas las categorías para un avatar
+     */
+    public function index($avatar_name)
     {
         try {
-            // Find the category
-            $category = Category::where('slug', $slug)->firstOrFail();
-
-            // Build path to the folder
-            $folderPath = storage_path("app/knowledge/{$category->slug}");
-            $pattern = $folderPath . "/*.json";
-
-            Log::info("Accessing folder via glob: $pattern");
-
-            // Get all JSON files
-            $files = glob($pattern);
-
-            Log::info('Files found: ' . json_encode($files));
-
-            $mergedData = [];
-
-            foreach ($files as $file) {
-                // Skip unreadable or empty files
-                if (!is_readable($file) || filesize($file) === 0) {
-                    Log::warning("Skipping file (unreadable or empty): $file");
-                    continue;
-                }
-
-                $content = file_get_contents($file);
-
-                // Skip if content is empty
-                if ($content === false || trim($content) === '') {
-                    Log::warning("Skipping file (empty content): $file");
-                    continue;
-                }
-
-                $mergedData[] = [
-                    'file_name' => basename($file),
-                    'content' => json_decode($content),
-                ];
-            }
-
-            return response()->json([
-                //'category' => $category->name,
-                //'slug' => $category->slug,
-                //'files_count' => count($mergedData),
-                'data' => $mergedData,
-            ]);
-        }
-        catch(Exception $e) {
-            Log::error("Error in KnowledgeController@show: " . $e->getMessage());
-            return response()->view('errors.500', [], 500);
-        }
-    }
-
-    public function index() {
-        try {
+            $avatar = Avatar::where('name', $avatar_name)->firstOrFail();
             $categories = Category::all();
             $allData = [];
 
-            foreach($categories as $category) {
+            foreach ($categories as $category) {
                 $folderPath = storage_path("app/knowledge/{$category->slug}");
                 $pattern = $folderPath . "/*.json";
 
                 Log::info("Accessing folder via glob: $pattern");
-
                 $files = glob($pattern);
-                Log::info('Files found: ' . json_encode($files));
 
                 $filesData = [];
-
-                foreach($files as $file) {
-                    if (!is_readable($file) || filesize($file) === 0) {
-                        Log::warning("Skipping file (unreadable or empty): $file");
-                        continue;
-                    }
+                foreach ($files as $file) {
+                    if (!is_readable($file) || filesize($file) === 0) continue;
 
                     $content = file_get_contents($file);
-
-                    if ($content === false || trim($content) === '') {
-                        Log::warning("Skipping file (empty content): $file");
-                        continue;
-                    }
+                    if ($content === false || trim($content) === '') continue;
 
                     $filesData[] = [
                         'file_name' => basename($file),
@@ -98,18 +42,117 @@ class KnowledgeController extends Controller
 
                 $allData[] = [
                     'category' => $category->name,
+                    'slug' => $category->slug,
                     'files_count' => count($filesData),
                     'fileData' => $filesData,
                 ];
             }
 
             return response()->json([
+                'avatar' => $avatar->name,
                 'data' => $allData,
             ], 200);
-
         }
-        catch(Exception $e) {
-            Log::error("Error in KnowledgeController@showAll: " . $e->getMessage());
+        catch (Exception $e) {
+            Log::error("Error in KnowledgeController@index: " . $e->getMessage());
+            return response()->view('errors.500', [], 500);
+        }
+    }
+
+    /**
+     * GET /{avatar_name}/knowledge/{slug}
+     * Muestra los knowledge files de una categoría específica
+     */
+    public function show($avatar_name, $slug)
+    {
+        try {
+            $avatar = Avatar::where('name', $avatar_name)->firstOrFail();
+            $category = Category::where('slug', $slug)->firstOrFail();
+
+            $folderPath = storage_path("app/knowledge/{$category->slug}");
+            $pattern = $folderPath . "/*.json";
+
+            Log::info("Accessing folder via glob: $pattern");
+            $files = glob($pattern);
+
+            $mergedData = [];
+
+            foreach ($files as $file) {
+                if (!is_readable($file) || filesize($file) === 0) continue;
+
+                $content = file_get_contents($file);
+                if ($content === false || trim($content) === '') continue;
+
+                $mergedData[] = [
+                    'file_name' => basename($file),
+                    'content' => json_decode($content),
+                ];
+            }
+
+            return response()->json([
+                'avatar' => $avatar->name,
+                'category' => $category->name,
+                'slug' => $category->slug,
+                'data' => $mergedData,
+            ], 200);
+        }
+        catch (Exception $e) {
+            Log::error("Error in KnowledgeController@show: " . $e->getMessage());
+            return response()->view('errors.500', [], 500);
+        }
+    }
+
+    /**
+     * GET /all/knowledge
+     * Devuelve todos los knowledge de todas las categorías y todos los avatares
+     */
+    public function globalIndex()
+    {
+        try {
+            $avatars = Avatar::all();
+            $categories = Category::all();
+            $result = [];
+
+            foreach ($avatars as $avatar) {
+                $avatarData = [
+                    'avatar' => $avatar->name,
+                    'categories' => [],
+                ];
+
+                foreach ($categories as $category) {
+                    $folderPath = storage_path("app/knowledge/{$category->slug}");
+                    $pattern = $folderPath . "/*.json";
+
+                    $files = glob($pattern);
+                    $filesData = [];
+
+                    foreach ($files as $file) {
+                        if (!is_readable($file) || filesize($file) === 0) continue;
+
+                        $content = file_get_contents($file);
+                        if ($content === false || trim($content) === '') continue;
+
+                        $filesData[] = [
+                            'file_name' => basename($file),
+                            'content' => json_decode($content),
+                        ];
+                    }
+
+                    $avatarData['categories'][] = [
+                        'category' => $category->name,
+                        'slug' => $category->slug,
+                        'files_count' => count($filesData),
+                        'fileData' => $filesData,
+                    ];
+                }
+
+                $result[] = $avatarData;
+            }
+
+            return response()->json(['data' => $result], 200);
+        }
+        catch (Exception $e) {
+            Log::error("Error in KnowledgeController@globalIndex: " . $e->getMessage());
             return response()->view('errors.500', [], 500);
         }
     }
