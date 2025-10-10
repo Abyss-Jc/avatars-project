@@ -1,4 +1,4 @@
-import HeygenEmbed from '@/components/avatar-matthew';
+import HeygenEmbed2 from '@/components/avatar-andrea'; 
 import { dashboard, login, register } from '@/routes';
 import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
@@ -16,7 +16,7 @@ export default function Welcome() {
                 {/* --- Header --- */}
                 <header className="flex items-center justify-between bg-primary px-6 py-4 shadow-sm">
                     <h1 className="text-lg font-semibold">
-                        Chat with Dr. Matthew Anderson – <span className="text-primary-foreground">Campus President</span>
+                        Chat with Andrea  – <span className="text-primary-foreground">Admissions</span>
                     </h1>
 
                     <nav className="flex items-center gap-4">
@@ -42,7 +42,7 @@ export default function Welcome() {
 
                 {/* --- Subtitle Section --- */}
                 <div className="mt-8 mb-4 text-center">
-                    <p className="text-base text-muted-foreground">Get Information about Retention Faults and Academic Advising!</p>
+                    <p className="text-base text-muted-foreground">Get Information about Tiquismiquis!</p>
                 </div>
 
                 {/* --- Main Video / Avatar Section --- */}
@@ -50,7 +50,7 @@ export default function Welcome() {
                     <div className="relative flex w-full max-w-3xl flex-col items-center overflow-hidden rounded-xl bg-muted shadow-md">
                         {/* Avatar embed container */}
                         <div className="flex h-[600px] w-full items-center justify-center bg-muted">
-                            <HeygenEmbed />
+                            <HeygenEmbed2 />
                         </div>
                     </div>
                 </main>

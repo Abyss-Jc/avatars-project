@@ -2,7 +2,7 @@
 
 import { AvatarStatusCard } from '@/components/avatar-status-card';
 import { Button } from '@/components/ui/button';
-import { home } from '@/routes';
+import { home, avatars } from '@/routes';
 import { Link } from '@inertiajs/react';
 import { BarChart3, Bot, Settings } from 'lucide-react';
 import { useState } from 'react';
@@ -10,7 +10,7 @@ import { useState } from 'react';
 export default function DashboardPage() {
     const [timeRange, setTimeRange] = useState('24h');
 
-    const avatars = [
+    const avatarsInfo = [
         {
             id: 1,
             name: 'Dr. Matthew Anderson',
@@ -19,6 +19,8 @@ export default function DashboardPage() {
             avgResponseTime: '1.2s',
             satisfaction: 94,
             color: 'chart-1',
+            image: '/avatar-imgs/dr_matthew_anderson.png',
+            href: home.url(),
         },
         {
             id: 2,
@@ -28,6 +30,8 @@ export default function DashboardPage() {
             avgResponseTime: '1.5s',
             satisfaction: 91,
             color: 'chart-2',
+            image: '/avatar-imgs/andrea_cordoba.png',
+            href: avatars.url(),
         },
         {
             id: 3,
@@ -49,8 +53,8 @@ export default function DashboardPage() {
         },
     ];
 
-    const totalConversations = avatars.reduce((sum, avatar) => sum + avatar.conversations, 0);
-    const avgSatisfaction = Math.round(avatars.reduce((sum, avatar) => sum + avatar.satisfaction, 0) / avatars.length);
+    const totalConversations = avatarsInfo.reduce((sum, avatar) => sum + avatar.conversations, 0);
+    const avgSatisfaction = Math.round(avatarsInfo.reduce((sum, avatar) => sum + avatar.satisfaction, 0) / avatarsInfo.length);
 
     return (
         <div className="min-h-screen bg-background">
@@ -60,10 +64,10 @@ export default function DashboardPage() {
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                                <Bot className="h-6 w-6 text-primary" />
+                                <Bot className="h-6 w-6 text-foreground" />
                             </div>
                             <div>
-                                <h1 className="text-xl font-semibold text-foreground">Institutional AI Avatars</h1>
+                                <h1 className="text-xl font-semibold text-foreground">Institutional AI avatarsInfo</h1>
                                 <p className="text-sm text-muted-foreground">Dashboard & Monitoring</p>
                             </div>
                         </div>
@@ -91,8 +95,8 @@ export default function DashboardPage() {
                         </Button>
                     </div>
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-                        {avatars.map((avatar) => (
-                            <Link key={avatar.id} href={home.url()}>
+                        {avatarsInfo.map((avatar) => (
+                            <Link key={avatar.id} href={avatar.href || '#'}>
                                 <a className="block">
                                     <AvatarStatusCard avatar={avatar} />
                                 </a>
