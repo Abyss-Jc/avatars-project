@@ -68,36 +68,13 @@ export default function DashboardPage() {
                             </div>
                         </div>
                         <div className="flex items-center gap-3">
-                            <div className="flex items-center gap-2 rounded-lg bg-secondary p-1">
-                                <Button
-                                    variant={timeRange === '24h' ? 'default' : 'ghost'}
-                                    size="sm"
-                                    onClick={() => setTimeRange('24h')}
-                                    className="text-xs"
-                                >
-                                    24h
+                            <Link href="/settings">
+                                <Button variant="outline" size="sm" style={{cursor: 'pointer'}}>
+                                    <Settings className="mr-2 h-4 w-4" />
+                                    Settings
                                 </Button>
-                                <Button
-                                    variant={timeRange === '7d' ? 'default' : 'ghost'}
-                                    size="sm"
-                                    onClick={() => setTimeRange('7d')}
-                                    className="text-xs"
-                                >
-                                    7d
-                                </Button>
-                                <Button
-                                    variant={timeRange === '30d' ? 'default' : 'ghost'}
-                                    size="sm"
-                                    onClick={() => setTimeRange('30d')}
-                                    className="text-xs"
-                                >
-                                    30d
-                                </Button>
-                            </div>
-                            <Button variant="outline" size="sm">
-                                <Settings className="mr-2 h-4 w-4" />
-                                Settings
-                            </Button>
+                            </Link>
+
                         </div>
                     </div>
                 </div>

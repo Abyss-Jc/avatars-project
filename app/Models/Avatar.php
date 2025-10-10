@@ -13,7 +13,8 @@ use HasFactory;
     public $timestamps = true;
     protected $fillable = [
         'name',
-        'source'
+        'source',
+        'img_url'
     ];
 
     protected $casts = [
