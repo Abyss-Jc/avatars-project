@@ -23,8 +23,8 @@ export default function HeygenEmbed() {
     const stylesheet = document.createElement("style");
     stylesheet.innerHTML = `
       #heygen-streaming-embed {
-        width: 640px;
-        height: 360px;
+        width: 60vw;
+        height: 70vh;
         border-radius: 12px;
         overflow: hidden;
         border: 2px solid #fff;

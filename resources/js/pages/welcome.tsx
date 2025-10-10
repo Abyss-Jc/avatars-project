@@ -14,7 +14,7 @@ export default function Welcome() {
             </Head>
             <div className="flex min-h-screen flex-col bg-background text-foreground">
                 {/* --- Header --- */}
-                <header className="flex items-center justify-between bg-primary px-6 py-4 shadow-sm">
+                <header className="flex items-center justify-between bg-background px-6 py-4 shadow-sm">
                     <h1 className="text-lg font-semibold">
                         Chat with Dr. Matthew Anderson – <span className="text-primary-foreground">Campus President</span>
                     </h1>
@@ -47,9 +47,9 @@ export default function Welcome() {
 
                 {/* --- Main Video / Avatar Section --- */}
                 <main className="flex grow items-center justify-center px-4 pb-12">
-                    <div className="relative flex w-full max-w-3xl flex-col items-center overflow-hidden rounded-xl bg-muted shadow-md">
+                    <div className="relative flex w-full max-w-[80vw] flex-col items-center overflow-hidden rounded-xl bg-muted shadow-md">
                         {/* Avatar embed container */}
-                        <div className="flex h-[600px] w-full items-center justify-center bg-muted">
+                        <div className="flex w-full items-center justify-center bg-muted">
                             <HeygenEmbed />
                         </div>
                     </div>
