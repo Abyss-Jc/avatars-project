@@ -30,10 +30,10 @@ use HasFactory;
     }
 
 
-
-
-
-
+    public function category() {
+        return $this->belongsToMany(Category::class, 'avatar_categories', 'avatar_id', 'category_id')
+                    ->withTimestamps();
+    }
 
 
 
