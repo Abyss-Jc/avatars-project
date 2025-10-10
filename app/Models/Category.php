@@ -71,4 +71,9 @@ class Category extends Model
         }
     }
 
+    public function avatars() {
+        return $this->belongsToMany(Avatar::class, 'avatar_categories', 'category_id', 'avatar_id')
+                    ->withTimestamps();
+    }
+
 }
