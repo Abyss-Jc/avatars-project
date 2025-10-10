@@ -35,8 +35,5 @@ use HasFactory;
                     ->withTimestamps();
     }
 
-
-
-
 }
 

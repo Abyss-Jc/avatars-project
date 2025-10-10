@@ -2,59 +2,35 @@
 
 import { AvatarStatusCard } from '@/components/avatar-status-card';
 import { Button } from '@/components/ui/button';
-import { home, avatars } from '@/routes';
 import { Link } from '@inertiajs/react';
 import { BarChart3, Bot, Settings } from 'lucide-react';
-import { useState } from 'react';
+import { Loader2 } from 'lucide-react';
+import { useState, useEffect, memo } from 'react';
 
-export default function DashboardPage() {
-    const [timeRange, setTimeRange] = useState('24h');
+import { getAvatarsInfo } from "../services/avatarsService"
 
-    const avatarsInfo = [
-        {
-            id: 1,
-            name: 'Dr. Matthew Anderson',
-            status: 'active',
-            conversations: 1247,
-            avgResponseTime: '1.2s',
-            satisfaction: 94,
-            color: 'chart-1',
-            image: '/avatar-imgs/dr_matthew_anderson.png',
-            href: home.url(),
-        },
-        {
-            id: 2,
-            name: 'Student Services',
-            status: 'active',
-            conversations: 892,
-            avgResponseTime: '1.5s',
-            satisfaction: 91,
-            color: 'chart-2',
-            image: '/avatar-imgs/andrea_cordoba.png',
-            href: avatars.url(),
-        },
-        {
-            id: 3,
-            name: 'Academic Affairs',
-            status: 'active',
-            conversations: 654,
-            avgResponseTime: '1.8s',
-            satisfaction: 89,
-            color: 'chart-3',
-        },
-        {
-            id: 4,
-            name: 'Technology Support',
-            status: 'maintenance',
-            conversations: 423,
-            avgResponseTime: '2.1s',
-            satisfaction: 87,
-            color: 'chart-4',
-        },
-    ];
+function DashboardPage() {
+    const [avatarsData, setAvatarsData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const totalConversations = avatarsInfo.reduce((sum, avatar) => sum + avatar.conversations, 0);
-    const avgSatisfaction = Math.round(avatarsInfo.reduce((sum, avatar) => sum + avatar.satisfaction, 0) / avatarsInfo.length);
+    useEffect(() => {
+        const fetchAvatars = async () => {
+            setIsLoading(true)
+            try {
+                const response = await getAvatarsInfo();
+                const {data} = response;
+                setAvatarsData(data.avatars);
+            }
+            catch(e) {
+                console.error("Error fetching Avatars", e)
+            }
+            finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchAvatars();
+    }, [])
 
     return (
         <div className="min-h-screen bg-background">
@@ -67,7 +43,7 @@ export default function DashboardPage() {
                                 <Bot className="h-6 w-6 text-foreground" />
                             </div>
                             <div>
-                                <h1 className="text-xl font-semibold text-foreground">Institutional AI avatarsInfo</h1>
+                                <h1 className="text-xl font-semibold text-foreground">Institutional AI Avatars</h1>
                                 <p className="text-sm text-muted-foreground">Dashboard & Monitoring</p>
                             </div>
                         </div>
@@ -86,6 +62,13 @@ export default function DashboardPage() {
 
             <main className="container mx-auto px-6 py-8">
                 {/* Avatar Status Cards */}
+
+                {isLoading ? (
+                    <div className="flex w-full justify-center items-center py-20">
+                      <Loader2 className="h-10 w-10 animate-spin text-primary" />
+                    </div>
+                ) : (
+
                 <div className="mb-8">
                     <div className="mb-4 flex items-center justify-between">
                         <h2 className="text-lg font-semibold text-foreground">Avatar Status</h2>
@@ -95,8 +78,15 @@ export default function DashboardPage() {
                         </Button>
                     </div>
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-                        {avatarsInfo.map((avatar) => (
-                            <Link key={avatar.id} href={avatar.href || '#'}>
+                        {avatarsData.map((avatar) => (
+                            <Link
+                            key={avatar.id}
+                            href={`/interactive-avatar/${avatar.name.replace(/\s+/g, '-').toLowerCase()}`}
+                            as="a"
+                            preserveState
+                            method='get'
+                            data={{ avatarId: avatar.id }} 
+                          >
                                 <a className="block">
                                     <AvatarStatusCard avatar={avatar} />
                                 </a>
@@ -104,7 +94,10 @@ export default function DashboardPage() {
                         ))}
                     </div>
                 </div>
+                )}
             </main>
         </div>
     );
 }
+
+export default memo(DashboardPage);
