@@ -6,6 +6,7 @@ import { Link } from '@inertiajs/react';
 import { BarChart3, Bot, Settings } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
 import { useState, useEffect, memo } from 'react';
+import AppLogoIcon from '../components/app-logo-icon';
 
 import { getAvatarsInfo } from "../services/avatarsService"
 
@@ -39,9 +40,9 @@ function DashboardPage() {
                 <div className="container mx-auto px-6 py-4">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                                <Bot className="h-6 w-6 text-foreground" />
-                            </div>
+                            <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
+                                            <AppLogoIcon className="size-5 fill-current text-white dark:text-black" />
+                                        </div>
                             <div>
                                 <h1 className="text-xl font-semibold text-foreground">Institutional AI Avatars</h1>
                                 <p className="text-sm text-muted-foreground">Dashboard & Monitoring</p>
@@ -92,6 +93,7 @@ function DashboardPage() {
                                 </a>
                             </Link>
                         ))}
+                        
                     </div>
                 </div>
                 )}

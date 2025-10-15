@@ -54,7 +54,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                         placeholder="First name"
                                     />
 
-                                    <InputError className="mt-2" message={errors.name} />
+                                    <InputError className="mt-2" message={errors.first_name} />
                                 </div>
 
                                 <div className="grid gap-2">
@@ -70,7 +70,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                                         placeholder="Last name"
                                     />
 
-                                    <InputError className="mt-2" message={errors.name} />
+                                    <InputError className="mt-2" message={errors.last_name} />
                                 </div>
 
                                 <div className="grid gap-2">

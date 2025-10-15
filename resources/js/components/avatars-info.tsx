@@ -1,32 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import { usePage } from '@inertiajs/react';
-import { getAvatarFrame } from "@/services/avatarsService";
-import { Loader2 } from 'lucide-react';
 
-export default function AvatarInfo() {
+interface Avatar {
+    source: string;
+  }
+  
+  interface AvatarInfoProps {
+    avatar: Avatar;
+  }
+
+export default function AvatarInfo({avatar} : AvatarInfoProps ) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [avatar, setAvatar] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const { props } = usePage();
-
-  useEffect(() => {
-    const fecthAvatarData = async () => {
-        setIsLoading(true)
-        try {
-            const response = await getAvatarFrame(props.avatarId);
-            const {data} = response;
-            setAvatar(data.avatar)
-        }
-        catch(e) {
-            console.error(e)
-        }
-        finally {
-            setIsLoading(false)
-        }
-    }
-
-    fecthAvatarData();
-  }, [props])
 
   useEffect(() => {
     if (!avatar?.source) return;
@@ -47,8 +30,8 @@ export default function AvatarInfo() {
     const stylesheet = document.createElement("style");
     stylesheet.innerHTML = `
       #heygen-streaming-embed {
-        width: 640px;
-        height: 360px;
+        width: 950px;
+        height: 535px;
         border-radius: 12px;
         overflow: hidden;
         border: 2px solid #fff;
@@ -86,11 +69,6 @@ export default function AvatarInfo() {
             minHeight: "70vh",
         }}
         >
-        {isLoading && (
-            <div className="flex w-full justify-center items-center py-20">
-            <Loader2 className="h-10 w-10 animate-spin text-primary" />
-            </div>
-        )}
         </div>
   );
 }

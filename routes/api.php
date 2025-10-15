@@ -20,4 +20,5 @@ Route::prefix('{avatar_name}/knowledge')->group(function () {
 Route::prefix('/avatars')->group(function() {
     Route::get('/', [AvatarsController::class, 'getAvatars']);
     Route::get('/avatar/{avatarId}', [AvatarsController::class, 'getAvatarFrame']);
+    Route::get('/did-agent', [AvatarsController::class, 'getDidAvatar']);
 });

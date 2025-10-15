@@ -11,10 +11,6 @@ Route::get('/avatars', function () {
     return Inertia::render('avatars');
 })->name('avatars');
 
-Route::get('/welcome', function () {
-    return Inertia::render('welcome');
-})->name('welcome');
-
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
@@ -29,7 +25,7 @@ Route::get('/interactive-avatar/{avatarName}', function() {
 
 
 Route::get('/did-agent', function() {
-    return Inertia::render('avatarDid');
+    return Inertia::render('avatarsDid');
 })->name('didAvatars');
 
 Route::get('/did-agent-2', function() {
