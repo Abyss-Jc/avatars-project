@@ -1,5 +1,3 @@
-'use client';
-
 import { AvatarStatusCard } from '@/components/avatar-status-card';
 import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';

@@ -5,21 +5,25 @@ import { dashboard, login, register } from '@/routes';
 import { getAvatarFrame } from '@/services/avatarsService';
 import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
+import DIDAgent from '@/components/avatar-did';
+import DIDAvatarEmbed from './avatarsDid2';
 
 export default function Welcome() {
     const { auth, avatarId } = usePage<SharedData>().props;
     const [avatar, setAvatar] = useState(null);
-    console.log(avatarId);
 
-    useEffect(async () => {
-        try {
-            const response = await getAvatarFrame(avatarId);
-            const {data} = response;
-            setAvatar(data.avatar);
-            console.log(data.avatar);
-        } catch (e) {
-            console.error("Error fetching Avatar frame", e)
-        }
+    useEffect(() => {
+        const fetchAvatar = async () => {
+            try {
+                const response = await getAvatarFrame(avatarId);
+                const { data } = response;
+                setAvatar(data.avatar);
+            } catch (e) {
+                console.error('Error fetching Avatar', e);
+            }   
+        };
+
+        fetchAvatar();
     }, [avatarId]);
 
     return (
@@ -68,7 +72,11 @@ export default function Welcome() {
                     <div className="relative flex w-full max-w-[80vw] flex-col items-center overflow-hidden rounded-xl bg-muted shadow-md">
                         {/* Avatar embed container */}
                         <div className="flex  w-full items-center justify-center bg-muted">
-                            <AvatarInfo avatar={avatar} />
+                            {avatar?.provider == "HeyGen" ? (
+                                <AvatarInfo avatar={avatar} />
+                            ) : (
+                                <DIDAvatarEmbed avatar={avatar?.source}/>
+                            )}
                         </div>
                     </div>
                 </main>
