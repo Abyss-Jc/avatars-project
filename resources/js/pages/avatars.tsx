@@ -1,10 +1,26 @@
 import HeygenEmbed2 from '@/components/avatar-andrea'; 
+import { useEffect, useState } from 'react';
+import AvatarInfo from '@/components/avatars-info';
 import { dashboard, login, register } from '@/routes';
+import { getAvatarFrame } from '@/services/avatarsService';
 import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 
 export default function Welcome() {
-    const { auth } = usePage<SharedData>().props;
+    const { auth, avatarId } = usePage<SharedData>().props;
+    const [avatar, setAvatar] = useState(null);
+    console.log(avatarId);
+
+    useEffect(async () => {
+        try {
+            const response = await getAvatarFrame(avatarId);
+            const {data} = response;
+            setAvatar(data.avatar);
+            console.log(data.avatar);
+        } catch (e) {
+            console.error("Error fetching Avatar frame", e)
+        }
+    }, [avatarId]);
 
     return (
         <>
@@ -16,7 +32,9 @@ export default function Welcome() {
                 {/* --- Header --- */}
                 <header className="flex items-center justify-between bg-background px-6 py-4 shadow-sm">
                     <h1 className="text-lg font-semibold">
-                        Chat with Andrea Córdoba – <span className="text-primary-foreground">Admissions</span>
+                        Chat with {avatar?.name} – <span className="text-primary-foreground">
+                            {avatar?.category.map(cat => cat.name).join(', ')}
+                        </span>
                     </h1>
 
                     <nav className="flex items-center gap-4">
@@ -50,7 +68,7 @@ export default function Welcome() {
                     <div className="relative flex w-full max-w-[80vw] flex-col items-center overflow-hidden rounded-xl bg-muted shadow-md">
                         {/* Avatar embed container */}
                         <div className="flex  w-full items-center justify-center bg-muted">
-                            <HeygenEmbed2 />
+                            <AvatarInfo avatar={avatar} />
                         </div>
                     </div>
                 </main>
