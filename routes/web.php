@@ -25,7 +25,7 @@ Route::get('/interactive-avatar/{avatarName}', function() {
     return Inertia::render('avatars', [
         'avatarId' => request()->input('avatarId'), 
     ]);
-})->name('avatarsDara');
+})->name('avatars');
 
 
 Route::get('/did-agent', function() {
