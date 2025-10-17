@@ -7,10 +7,6 @@ Route::get('/', function () {
     return Inertia::render('dashboard');
 })->name('home');
 
-Route::get('/avatars', function () {
-    return Inertia::render('avatars');
-})->name('avatars');
-
 Route::get('/welcome', function () {
     return Inertia::render('welcome');
 })->name('welcome');
