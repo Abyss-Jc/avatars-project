@@ -123,7 +123,6 @@
       "resources/js/pages/auth/verify-email.tsx",
       "resources/js/pages/avatarDid.tsx",
       "resources/js/pages/avatars.tsx",
-      "resources/js/pages/avatarsData.tsx",
       "resources/js/pages/avatarsDid2.tsx",
       "resources/js/pages/avatarsDidEmbed.tsx",
       "resources/js/pages/dashboard.tsx",
@@ -274,22 +273,6 @@
     "imports": [
       "resources/js/app.tsx",
       "_index-C2Msu2A7.js"
-    ],
-    "css": [
-      "assets/app-09_BeFtH.css"
-    ]
-  },
-  "resources/js/pages/avatarsData.tsx": {
-    "file": "assets/avatarsData-DPtl67DB.js",
-    "name": "avatarsData",
-    "src": "resources/js/pages/avatarsData.tsx",
-    "isDynamicEntry": true,
-    "imports": [
-      "resources/js/app.tsx",
-      "_index-C2Msu2A7.js",
-      "_avatarsService-DaFgJWuT.js",
-      "_loader-circle-DHxgzIsI.js",
-      "_createLucideIcon-Brqb3477.js"
     ],
     "css": [
       "assets/app-09_BeFtH.css"

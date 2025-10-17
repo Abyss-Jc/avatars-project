@@ -1,11 +1,9 @@
-import HeygenEmbed2 from '@/components/avatar-andrea'; 
 import { useEffect, useState } from 'react';
 import AvatarInfo from '@/components/avatars-info';
 import { dashboard, login, register } from '@/routes';
 import { getAvatarFrame } from '@/services/avatarsService';
 import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
-import DIDAgent from '@/components/avatar-did';
 import DIDAvatarEmbed from './avatarsDid2';
 
 export default function Welcome() {
